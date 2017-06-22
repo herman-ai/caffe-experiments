@@ -99,7 +99,6 @@ layer {
     pad: 2
     kernel_size: 5
     bias_term: false
-    group: 2
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -182,7 +181,6 @@ layer {
     pad: 1
     kernel_size: 3
     bias_term: false
-    group: 2
     weight_filler {
       type: "gaussian"
       std: 0.01
@@ -213,7 +211,6 @@ layer {
     pad: 1
     kernel_size: 3
     bias_term: false
-    group: 2
     weight_filler {
       type: "gaussian"
       std: 0.01
