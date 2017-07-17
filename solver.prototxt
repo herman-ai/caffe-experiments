@@ -1,14 +1,15 @@
-net: "bvlc_alexnet10/train_val.prototxt"
-test_iter: 2560
+net: "train_val.prototxt"
+test_iter: 0
 test_interval: 2560
 base_lr: 0.00000016094
+#base_lr: 0
 lr_policy: "fixed"
 gamma: 1
-stepsize: 1000
-display: 2560
-max_iter: 128000
+display: 1
+max_iter: 1
 momentum: 0.9995885201667687
-weight_decay: 0.0005
-snapshot: 128000
-snapshot_prefix: "alexnet-models/bvlc_alexnet10/caffe_alexnet_train10class_nomean"
+weight_decay: 1
+snapshot: 1
+snapshot_prefix: "../alexnet-models/bvlc_alexnet10/caffe_alexnet_train10class_nomean"
 solver_mode: GPU
+random_seed:0

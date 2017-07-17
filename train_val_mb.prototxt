@@ -8,13 +8,13 @@ layer {
     phase: TRAIN
   }
   transform_param {
-    mirror: false
+    mirror: true
     crop_size: 227
-    mean_file: "../data/ilsvrc12/imagenet_mean.binaryproto"
+    mean_file: "data/ilsvrc12/imagenet_mean.binaryproto"
   }
   data_param {
-    source: "../ilsvrc12_train10class_lmdb"
-    batch_size: 1
+    source: "ilsvrc12_train10class_lmdb"
+    batch_size: 256
     backend: LMDB
   }
 }
@@ -29,11 +29,11 @@ layer {
   transform_param {
     mirror: false
     crop_size: 227
-    mean_file: "../data/ilsvrc12/imagenet_mean.binaryproto"
+    mean_file: "data/ilsvrc12/imagenet_mean.binaryproto"
   }
   data_param {
-    source: "../ilsvrc12_train10class_lmdb"
-    batch_size: 1
+    source: "ilsvrc12_train10class_lmdb"
+    batch_size: 256
     backend: LMDB
   }
 }
@@ -43,8 +43,8 @@ layer {
   bottom: "data"
   top: "conv1"
   param {
-    lr_mult: 0
-    decay_mult: 0
+    lr_mult: 1
+    decay_mult: 1
   }
   convolution_param {
     num_output: 96
@@ -54,8 +54,10 @@ layer {
     weight_filler {
       type: "gaussian"
       std: 0.01
-      #type: "constant"
-      #value: 1
+    }
+    bias_filler {
+      type: "constant"
+      value: 0
     }
   }
 }
@@ -66,9 +68,20 @@ layer {
   top: "conv1"
 }
 layer {
+  name: "norm1"
+  type: "LRN"
+  bottom: "conv1"
+  top: "norm1"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layer {
   name: "pool1"
   type: "Pooling"
-  bottom: "conv1"
+  bottom: "norm1"
   top: "pool1"
   pooling_param {
     pool: MAX
@@ -89,6 +102,7 @@ layer {
     num_output: 256
     pad: 2
     kernel_size: 5
+    group: 1
     bias_term: false
     weight_filler {
       type: "gaussian"
@@ -107,9 +121,20 @@ layer {
   top: "conv2"
 }
 layer {
+  name: "norm2"
+  type: "LRN"
+  bottom: "conv2"
+  top: "norm2"
+  lrn_param {
+    local_size: 5
+    alpha: 0.0001
+    beta: 0.75
+  }
+}
+layer {
   name: "pool2"
   type: "Pooling"
-  bottom: "conv2"
+  bottom: "norm2"
   top: "pool2"
   pooling_param {
     pool: MAX
@@ -127,7 +152,7 @@ layer {
     decay_mult: 1
   }
   convolution_param {
-    num_output: 384    #384
+    num_output: 384
     pad: 1
     kernel_size: 3
     bias_term: false
@@ -157,9 +182,10 @@ layer {
     decay_mult: 1
   }
   convolution_param {
-    num_output: 384   #XXX
+    num_output: 384
     pad: 1
     kernel_size: 3
+    group: 1
     bias_term: false
     weight_filler {
       type: "gaussian"
@@ -190,6 +216,7 @@ layer {
     num_output: 256
     pad: 1
     kernel_size: 3
+    group: 1
     bias_term: false
     weight_filler {
       type: "gaussian"
@@ -228,13 +255,11 @@ layer {
     decay_mult: 1
   }
   inner_product_param {
-    num_output: 4096   #4096 XXX
+    num_output: 4096
     bias_term: false
     weight_filler {
       type: "gaussian"
       std: 0.005
-      #type: "constant"  #XXX
-      #value: 1          #XXX
     }
     bias_filler {
       type: "constant"
@@ -254,7 +279,7 @@ layer {
   bottom: "fc6"
   top: "fc6"
   dropout_param {
-    dropout_ratio: 0.0
+    dropout_ratio: 0.5
   }
 }
 layer {
@@ -291,7 +316,7 @@ layer {
   bottom: "fc7"
   top: "fc7"
   dropout_param {
-    dropout_ratio: 0.0
+    dropout_ratio: 0.5
   }
 }
 layer {
@@ -301,10 +326,10 @@ layer {
   top: "fc8"
   param {
     lr_mult: 1
-    #decay_mult: 1
+    decay_mult: 1
   }
   inner_product_param {
-    num_output: 32     
+    num_output: 32
     bias_term: false
     weight_filler {
       type: "gaussian"
