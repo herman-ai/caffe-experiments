@@ -10,7 +10,8 @@ max_iter: 102400
 momentum: 0.9995885201667687
 #momentum: 0.0
 weight_decay: 1
-snapshot: 102400
+#weight_decay: 0.0005
+snapshot: 128000
 snapshot_prefix: "../alexnet-models/bvlc_alexnet10/caffe_alexnet_train10class_nomean"
 solver_mode: GPU
 random_seed:0
