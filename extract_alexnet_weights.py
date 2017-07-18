@@ -5,7 +5,7 @@ import lmdb
 
 #XXX
 net = caffe.Net('/home/ubuntu/bvlc_alexnet10/deploy.prototxt',
-        'alexnet-models/bvlc_alexnet10/caffe_alexnet_train10class_nomean_iter_0.caffemodel',
+        'alexnet-models/bvlc_alexnet10/caffe_alexnet_train10class_nomean_iter_25600.caffemodel',
         caffe.TEST)
 
 mean_blobproto_new = caffe.proto.caffe_pb2.BlobProto()

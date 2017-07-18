@@ -4,11 +4,18 @@ os.environ['GLOG_minloglevel'] = '0'
 import caffe
 import numpy as np
 import lmdb
+import sys
 
 solver = caffe.SGDSolver("/home/ubuntu/bvlc_alexnet10/solver.prototxt")
 
 solver.step(1)
-    
+fc8w0 = np.copy(solver.net.params["fc8"][0].data)
+fc8g0 = np.copy(solver.net.params["fc8"][0].diff)
+solver.step(1)
+fc8w1 = np.copy(solver.net.params["fc8"][0].data)
+fc8g1 = np.copy(solver.net.params["fc8"][0].diff)
+sys.exit(0)
+
 image = solver.net.blobs["data"].data
 
 pool1 = solver.net.blobs["pool1"].data
