@@ -1,0 +1,14 @@
+net: "train_val.prototxt"
+test_iter: 500   # Test one epoch each time
+test_interval: 500  # Run every epoch of training
+base_lr: LR
+lr_policy: "fixed"
+gamma: 1
+display: 500  #1 epoch
+max_iter: 5000  # 10 epochs
+momentum: 0.9
+weight_decay: 0.0
+snapshot: 5000
+snapshot_prefix: "/spare/alexnet-models/bvlc_alexnet100/caffe_alexnet100_LR"
+solver_mode: GPU
+random_seed:0
