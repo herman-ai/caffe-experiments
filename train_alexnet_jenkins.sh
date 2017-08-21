@@ -15,6 +15,9 @@ sed -i "s|DIR|${DIR}|" ${DIR}/solver-${LR}.prototxt
 echo "caffe train -solver solver-${LR}.prototxt > train_log_${LR}.txt"
 /cb/home/herman/caffe/build/tools/caffe train -solver ${DIR}/solver-${LR}.prototxt > ${DIR}/train_log_${LR}.txt 2>&1
 s3cmd put ${DIR}/train_log_${LR}.txt s3://caffe-experiments/mb256/train_log_${LR}.txt
-rm -f ${DIR}/train_log_${LR}.txt
+
+rm -f ${DIR}/train_log_${LR}.txt ${DIR}/solver-${LR}.prototxt ${DIR}/*.caffemodel ${DIR}/*.solverstate
+rm -rf ${DIR}/ilsvrc12_train10class_lmdb
+
 #TODO: Also remove the checkpoint and solver.prototxt
 
