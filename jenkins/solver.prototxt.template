@@ -1,0 +1,14 @@
+net: "train_val-BATCH_SIZE.prototxt"
+test_iter: ITERS_PER_EPOCH   # Test one epoch each time
+test_interval: ITERS_PER_EPOCH  # Run every epoch of training
+base_lr: LR
+lr_policy: "fixed"
+gamma: 1
+display: ITERS_PER_EPOCH  #1 epoch
+max_iter: ITERS_PER_FIFTY_EPOCHS  # 100 epochs
+momentum: 0.9
+weight_decay: 0.0
+snapshot: ITERS_PER_FIFTY_EPOCHS
+snapshot_prefix: "DIR/caffe_alexnet100_LR"
+solver_mode: GPU
+random_seed:0

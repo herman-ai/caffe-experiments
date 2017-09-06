@@ -1,0 +1,36 @@
+#!/usr/bin/groovy
+// globals should *not* be defined with def
+
+
+//*******CHANGE ME ***********//
+runconfig_lines=[
+"alexnet100-0.01,0.01",
+"alexnet100-0.02,0.02",
+"",
+]
+//*******END****************//
+
+stage 'caffe'
+// runconfig_lines = new String(runconfig_txt).split('\n')
+
+def stepsForParallel = [:]
+
+    for (int i = 0; i <runconfig_lines.size(); i++) {
+        def line = runconfig_lines[i].split(',')
+        if (RUN_ALL || (line[0] in run_list)) {
+            stepsForParallel[line[0]] = caffeStep(line)
+        }
+    }
+
+parallel stepsForParallel
+
+def caffeStep(line) {
+    return {
+        node ('centos7-1g-1j && spot') {
+            def LR = line[1]
+            sh "cd /cb/home/herman/ws/caffe-experiments/; LR=${LR} source train_alexnet_jenkins.sh"
+            sleep(10)
+        }
+    }
+}
+
